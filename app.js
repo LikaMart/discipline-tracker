@@ -220,6 +220,28 @@ window.onload = function () {
     updateSweetScore();
   }
 
+  // მოტივაციის ფრაზები
+const quotes = [
+  "Bloom where you are planted 🌸",
+  "Time to put yourself first 💖",
+  "Healthy mind, healthy body 🌿",
+  "Discipline is self-love 💕",
+  "You did it! Keep going ⭐"
+];
+document.getElementById("motivation-text").textContent =
+  quotes[Math.floor(Math.random() * quotes.length)];
+
+// სიგარეტი
+const cigaretteBoxes = document.querySelectorAll("#cigarettes input");
+const cigaretteScore = document.getElementById("cigarette-score");
+let cigaretteHistory = JSON.parse(localStorage.getItem("cigaretteHistory")) || [];
+
+cigaretteBoxes.forEach((box) => {
+  box.addEventListener("change", updateCigaretteScore);
+});
+function updateCigaretteScore() {
+  let checked = document.querySelectorAll("#cig
+
   // ჩანაწერი
   let savedNote = localStorage.getItem("note");
   if (savedNote) {

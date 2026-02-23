@@ -4,14 +4,8 @@
     <meta charset="UTF-8" />
     <title>🌸 Discipline Tracker 🌸</title>
     <link rel="stylesheet" href="style.css" />
-
-    <!-- აუცილებელია manifest.json -->
     <link rel="manifest" href="manifest.json" />
-
-    <!-- აიკონი -->
     <link rel="icon" type="image/png" href="icon-192.png" />
-
-    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
       rel="stylesheet"
@@ -20,11 +14,18 @@
   <body>
     <header>
       <h1>🌸 Discipline Tracker 🌸</h1>
+      <p class="subtitle">„Discipline is self-love 💕“</p>
     </header>
 
-    <!-- სიგარეტის სექცია -->
+    <!-- მოტივაციის ბლოკი -->
+    <div class="card motivation">
+      <h2>დღის მოტივაცია 🌸</h2>
+      <p id="motivation-text">Keep going, you’re amazing! ✨</p>
+    </div>
+
+    <!-- სიგარეტი -->
     <div class="card" id="cigarettes">
-      <h2>სიგარეტი</h2>
+      <h2>🚭 სიგარეტი</h2>
       <label><input type="checkbox" /> 1</label>
       <label><input type="checkbox" /> 2</label>
       <label><input type="checkbox" /> 3</label>
@@ -33,9 +34,9 @@
       <p id="cigarette-score">⭐ ქულები: 0</p>
     </div>
 
-    <!-- ტკბილეულის სექცია -->
+    <!-- ტკბილეული -->
     <div class="card" id="sweets">
-      <h2>ტკბილეული</h2>
+      <h2>🍬 ტკბილეული</h2>
       <label><input type="checkbox" /> 1</label>
       <label><input type="checkbox" /> 2</label>
       <label><input type="checkbox" /> 3</label>
@@ -46,11 +47,10 @@
 
     <!-- პროგრესი -->
     <div class="card">
-      <h2>დღეების პროგრესი</h2>
+      <h2>📅 დღის პროგრესი</h2>
       <p id="day-counter">დღე: 0</p>
       <p id="bonus-stars">🎁 ბონუს ვარსკვლავები: 0</p>
-      <button onclick="nextDay()">➕ დაამატე დღე</button>
-
+      <button onclick="nextDay()">➕ დაამატე დღე 🌸</button>
       <div id="progress-container">
         <div id="progress-bar"></div>
       </div>
@@ -59,7 +59,7 @@
 
     <!-- წონა -->
     <div class="card">
-      <h2>წონა</h2>
+      <h2>⚖️ წონა</h2>
       <input type="text" id="weight" placeholder="ჩაწერე დღევანდელი წონა" />
       <button onclick="saveWeight()">შენახვა</button>
       <p id="weight-log"></p>
@@ -67,38 +67,29 @@
 
     <!-- ფოტო -->
     <div class="card">
-      <h2>ფოტო</h2>
+      <h2>📸 ფოტო</h2>
       <input type="file" id="photo" accept="image/*" />
       <button onclick="savePhoto()">ატვირთვა</button>
       <div id="photo-preview"></div>
     </div>
 
-    <!-- საჭმელი -->
-    <div class="card">
-      <h2>საჭმელი</h2>
-      <input type="checkbox" id="bread" /> პური
-      <input type="text" id="food" placeholder="სხვა საჭმელი" />
-      <button onclick="saveFood()">შენახვა</button>
-      <p id="food-log"></p>
-    </div>
-
-    <!-- სტატისტიკა -->
-    <div class="card">
-      <h2>სტატისტიკა</h2>
-      <canvas id="weightChart"></canvas>
-      <canvas id="cigaretteChart"></canvas>
-      <canvas id="sweetChart"></canvas>
-    </div>
-
     <!-- ჩანაწერი -->
     <div class="card">
-      <h2>ჩანაწერი</h2>
+      <h2>📝 ჩანაწერი</h2>
       <textarea id="noteInput" placeholder="ჩაწერე შენიშვნა აქ"></textarea>
       <button onclick="saveNote()">შენახვა</button>
       <p id="note-log"></p>
     </div>
 
-    <!-- Service Worker რეგისტრაცია -->
+    <!-- სტატისტიკა -->
+    <div class="card">
+      <h2>📊 სტატისტიკა</h2>
+      <canvas id="weightChart"></canvas>
+      <canvas id="cigaretteChart"></canvas>
+      <canvas id="sweetChart"></canvas>
+    </div>
+
+    <!-- Service Worker -->
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
@@ -108,11 +99,10 @@
       }
     </script>
 
-    <!-- Chart.js -->
+    <!-- Chart.js & SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- შენი აპის ლოგიკა -->
+    <!-- აპის ლოგიკა -->
     <script src="app.js"></script>
   </body>
 </html>
