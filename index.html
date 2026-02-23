@@ -1,98 +1,71 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ka">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Discipline Tracker</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="manifest" href="manifest.json" />
-    <link rel="sevrvice worker" href="service-worker.js" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8">
+  <title>🌸 Discipline Tracker 🌸</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- აუცილებელია manifest.json -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- აიკონი -->
+  <link rel="icon" type="image/png" href="icon-192.png">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
     <h1>🌸 Discipline Tracker 🌸</h1>
+  </header>
 
-    <!-- სიგარეტი -->
-    <div class="card">
-      <h2>სიგარეტი</h2>
-      <div id="cigarettes">
-        <label><input type="checkbox" value="1" /> ღერი 1</label>
-        <label><input type="checkbox" value="2" /> ღერი 2</label>
-        <label><input type="checkbox" value="3" /> ღერი 3</label>
-        <label><input type="checkbox" value="4" /> ღერი 4</label>
-        <label><input type="checkbox" value="5" /> ღერი 5</label>
-      </div>
-      <p id="cigarette-score">⭐ ქულები: 0</p>
-    </div>
+  <!-- სიგარეტის სექცია -->
+  <div class="card">
+    <h2>სიგარეტი</h2>
+    დღე 1 ☐  დღე 2 ☐  დღე 3 ☐  დღე 4 ☐  დღე 5 ☐  
+    <p>⭐ ქულები: <span id="cigarettePoints">0</span></p>
+  </div>
 
-    <div class="card">
-      <h2>დღეების პროგრესი</h2>
-      <p id="day-counter">დღე: 0</p>
-      <p id="bonus-stars">🎁 ბონუს ვარსკვლავები: 0</p>
-      <button onclick="nextDay()">შემდეგი დღე</button>
-    </div>
+  <!-- პროგრესი -->
+  <div class="card">
+    <h2>დღეების პროგრესი</h2>
+    <p>დღე: <span id="dayCount">0</span></p>
+    <p>🎁 ბონუს ქულები: <span id="bonusPoints">0</span></p>
+    <button onclick="addDay()">შეამატე დღე</button>
+  </div>
 
-    <!-- წონა -->
-    <div class="card">
-      <h2>წონა</h2>
-      <input type="number" id="weight" placeholder="ჩაწერე დღევანდელი წონა" />
-      <button onclick="saveWeight()">შენახვა</button>
-      <p id="weight-log"></p>
-    </div>
+  <!-- წონა -->
+  <div class="card">
+    <h2>წონა</h2>
+    <input type="text" id="weightInput" placeholder="ჩაწერე დღევანდელი წონა">
+    <button onclick="saveWeight()">შენახვა</button>
+  </div>
 
-    <!-- ფოტო -->
-    <div class="card">
-      <h2>დღიური ფოტო</h2>
-      <input type="file" id="photo" accept="image/*" />
-      <button onclick="savePhoto()">ატვირთვა</button>
-      <div id="photo-preview"></div>
-    </div>
+  <!-- სტატისტიკა -->
+  <div class="card">
+    <h2>სტატისტიკა</h2>
+    <canvas id="weightChart"></canvas>
+    <canvas id="cigaretteChart"></canvas>
+    <canvas id="sweetChart"></canvas>
+  </div>
 
-    <!-- საჭმელი -->
-    <div class="card">
-      <h2>საჭმელი</h2>
-      <label><input type="checkbox" id="bread" /> ვჭამე პური</label>
-      <input type="text" id="food" placeholder="რა ვჭამე?" />
-      <button onclick="saveFood()">შენახვა</button>
-      <p id="food-log"></p>
-    </div>
+  <!-- ჩანაწერი -->
+  <div class="card">
+    <h2>ჩანაწერი</h2>
+    <textarea id="noteInput" placeholder="ჩაწერე შენიშვნა აქ"></textarea>
+    <button onclick="saveNote()">შენახვა</button>
+  </div>
 
-    <!-- ტკბილეული -->
-    <div class="card">
-      <h2>ტკბილეული</h2>
-      <div id="sweets">
-        <label><input type="checkbox" value="1" /> ტკბილი 1</label>
-        <label><input type="checkbox" value="2" /> ტკბილი 2</label>
-        <label><input type="checkbox" value="3" /> ტკბილი 3</label>
-        <label><input type="checkbox" value="4" /> ტკბილი 4</label>
-        <label><input type="checkbox" value="5" /> ტკბილი 5</label>
-      </div>
-      <p id="sweet-score">⭐ ქულები: 0</p>
-    </div>
+  <!-- Service Worker რეგისტრაცია -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("Service Worker რეგისტრირებულია"))
+        .catch(err => console.error("Service Worker შეცდომა:", err));
+    }
+  </script>
 
-    <div class="card">
-      <h2>100 დღიანი გამოწვევა</h2>
-      <div id="progress-container">
-        <div id="progress-bar"></div>
-      </div>
-      <p id="progress-text">0 / 100 დღე</p>
-    </div>
-
-    <!-- სტატისტიკები -->
-    <div class="card">
-      <h2>სტატისტიკა</h2>
-      <canvas id="weightChart"></canvas>
-      <canvas id="cigaretteChart"></canvas>
-      <canvas id="sweetChart"></canvas>
-    </div>
-
-    <script>
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker
-          .register("service-worker.js")
-          .then(() => console.log("Service Worker რეგისტრირებულია"))
-          .catch((err) => console.error("Service Worker შეცდომა:", err));
-      }
-    </script>
-    <script src="app.js"></script>
-  </body>
+  <!-- შენი აპის ლოგიკა -->
+  <script src="app.js"></script>
+</body>
 </html>
