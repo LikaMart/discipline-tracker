@@ -1,7 +1,8 @@
 // სიგარეტის ქულები
 const cigaretteBoxes = document.querySelectorAll("#cigarettes input");
 const cigaretteScore = document.getElementById("cigarette-score");
-let cigaretteHistory = JSON.parse(localStorage.getItem("cigaretteHistory")) || [];
+let cigaretteHistory =
+  JSON.parse(localStorage.getItem("cigaretteHistory")) || [];
 
 cigaretteBoxes.forEach((box) => {
   box.addEventListener("change", updateCigaretteScore);
@@ -13,7 +14,10 @@ function updateCigaretteScore() {
   cigaretteScore.textContent = "⭐ ქულები: " + stars;
   localStorage.setItem("cigarettes", checked);
 
-  cigaretteHistory.push({ date: new Date().toLocaleDateString(), stars: stars });
+  cigaretteHistory.push({
+    date: new Date().toLocaleDateString(),
+    stars: stars,
+  });
   localStorage.setItem("cigaretteHistory", JSON.stringify(cigaretteHistory));
   updateCharts();
 }
@@ -79,6 +83,13 @@ function updateSweetScore() {
   updateCharts();
 }
 
+// ჩანაწერი (Notes)
+function saveNote() {
+  let note = document.getElementById("noteInput").value;
+  localStorage.setItem("note", note);
+  document.getElementById("note-log").textContent = note;
+}
+
 // გრაფიკების განახლება
 function updateCharts() {
   new Chart(document.getElementById("weightChart"), {
@@ -135,7 +146,9 @@ function nextDay() {
   localStorage.setItem("currentDay", currentDay);
   document.getElementById("day-counter").textContent = "დღე: " + currentDay;
 
-  let cigsChecked = document.querySelectorAll("#cigarettes input:checked").length;
+  let cigsChecked = document.querySelectorAll(
+    "#cigarettes input:checked",
+  ).length;
   let sweetsChecked = document.querySelectorAll("#sweets input:checked").length;
   let bread = document.getElementById("bread").checked;
   let weight = document.getElementById("weight").value;
@@ -152,7 +165,8 @@ function nextDay() {
       title: "გილოცავ! 🎉",
       text: "მიიღე ბონუს ვარსკვლავი!",
       icon: "success",
-      confirmButtonText: "კარგი"
+      confirmButtonColor: "#ff66b2",
+      confirmButtonText: "კარგი",
     });
   }
 
@@ -160,8 +174,8 @@ function nextDay() {
 }
 
 function updateProgressBar() {
-  let percent = (currentDay / 100);
-  document.getElementById("progress-bar").style.width = (percent * 100) + "%";
+  let percent = currentDay / 100;
+  document.getElementById("progress-bar").style.width = percent * 100 + "%";
   document.getElementById("progress-text").textContent =
     currentDay + " / 100 დღე";
 }
@@ -204,6 +218,12 @@ window.onload = function () {
       box.checked = i < savedSweets;
     });
     updateSweetScore();
+  }
+
+  // ჩანაწერი
+  let savedNote = localStorage.getItem("note");
+  if (savedNote) {
+    document.getElementById("note-log").textContent = savedNote;
   }
 
   // დღიური პროგრესი
