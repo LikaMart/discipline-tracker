@@ -51,7 +51,7 @@
       <p id="bonus-stars">🎁 ბონუს ვარსკვლავები: 0</p>
       <button onclick="nextDay()">➕ დაამატე დღე</button>
 
-      <div class="progress">
+      <div id="progress-container">
         <div id="progress-bar"></div>
       </div>
       <p id="progress-text">0 / 100 დღე</p>
@@ -63,6 +63,23 @@
       <input type="text" id="weight" placeholder="ჩაწერე დღევანდელი წონა" />
       <button onclick="saveWeight()">შენახვა</button>
       <p id="weight-log"></p>
+    </div>
+
+    <!-- ფოტო -->
+    <div class="card">
+      <h2>ფოტო</h2>
+      <input type="file" id="photo" accept="image/*" />
+      <button onclick="savePhoto()">ატვირთვა</button>
+      <div id="photo-preview"></div>
+    </div>
+
+    <!-- საჭმელი -->
+    <div class="card">
+      <h2>საჭმელი</h2>
+      <input type="checkbox" id="bread" /> პური
+      <input type="text" id="food" placeholder="სხვა საჭმელი" />
+      <button onclick="saveFood()">შენახვა</button>
+      <p id="food-log"></p>
     </div>
 
     <!-- სტატისტიკა -->
@@ -93,10 +110,8 @@
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <!-- შენი აპის ლოგიკა -->
     <script src="app.js"></script>
   </body>
