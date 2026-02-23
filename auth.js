@@ -1,29 +1,54 @@
 // რეგისტრაცია
 function register() {
-  let username = document.getElementById("reg-username").value;
-  let password = document.getElementById("reg-password").value;
+  let username = document.getElementById("reg-username").value.trim();
+  let password = document.getElementById("reg-password").value.trim();
 
   if (username && password) {
-    localStorage.setItem("user_" + username, password);
-    alert("რეგისტრაცია წარმატებით დასრულდა!");
-    window.location.href = "login.html";
+    // მარტივი hash (base64) — უკეთესია ვიდრე პირდაპირი ტექსტი
+    let hashedPassword = btoa(password);
+    localStorage.setItem("user_" + username, hashedPassword);
+
+    Swal.fire({
+      title: "რეგისტრაცია წარმატებულია 🎉",
+      text: "შესვლა შეგიძლია login გვერდზე",
+      icon: "success",
+      confirmButtonText: "კარგი"
+    }).then(() => {
+      window.location.href = "login.html";
+    });
   } else {
-    alert("გთხოვ, შეავსე ყველა ველი!");
+    Swal.fire({
+      title: "გთხოვ, შეავსე ყველა ველი!",
+      icon: "warning",
+      confirmButtonText: "კარგი"
+    });
   }
 }
 
 // შესვლა
 function login() {
-  let username = document.getElementById("login-username").value;
-  let password = document.getElementById("login-password").value;
+  let username = document.getElementById("login-username").value.trim();
+  let password = document.getElementById("login-password").value.trim();
 
   let savedPassword = localStorage.getItem("user_" + username);
 
-  if (savedPassword && savedPassword === password) {
-    alert("შესვლა წარმატებით შესრულდა!");
+  if (savedPassword && savedPassword === btoa(password)) {
     localStorage.setItem("loggedInUser", username);
-    window.location.href = "index.html"; // გადადის მთავარ tracker-ზე
+
+    Swal.fire({
+      title: "შესვლა წარმატებულია 🎉",
+      text: "მოგესალმები " + username,
+      icon: "success",
+      confirmButtonText: "გაგრძელება"
+    }).then(() => {
+      window.location.replace("index.html"); // გადადის მთავარ tracker-ზე
+    });
   } else {
-    alert("მომხმარებელი ან პაროლი არასწორია!");
+    Swal.fire({
+      title: "შეცდომა ❌",
+      text: "მომხმარებელი ან პაროლი არასწორია!",
+      icon: "error",
+      confirmButtonText: "კარგი"
+    });
   }
 }
